@@ -180,38 +180,31 @@ def flag_compound_risk(
     threshold: float = 75.0,
     min_hazards: int = 2,
 ) -> pd.DataFrame:
-    """Flag assets exposed to multiple simultaneous high-risk hazards.
-
-    An asset is flagged 'compound' if it scores above ``threshold`` in
-    at least ``min_hazards`` of the three hazard types.  Compound events
-    are disproportionately damaging (IPCC AR6 Ch. 11) and warrant a
-    separate tier in the risk scorecard.
-
-    Args:
-        df: DataFrame with flood_score, heat_score, cyclone_score columns.
-        threshold: Score above which a hazard counts as 'high risk'.
-        min_hazards: Minimum number of high-risk hazards to trigger flag.
-
-    Returns:
-        df with added boolean column 'compound_risk'.
-    """
+    """Flag assets exposed to multiple simultaneous high-risk hazards."""
     score_cols = ["flood_score", "heat_score", "cyclone_score"]
     present = [c for c in score_cols if c in df.columns]
+
     if not present:
         logger.warning("No hazard score columns found; compound flag not set.")
-        df["compound_risk"] = False
+        df["compound_risk"] = pd.Series([False] * len(df), dtype=object)
         return df
 
     high_risk = (df[present] >= threshold).sum(axis=1)
 
-    df["compound_risk"] = [
-        bool(x) for x in (high_risk >= min_hazards)
-    ]
-    n_flagged = df["compound_risk"].sum()
+    # Force Python bool objects, not numpy.bool_
+    df["compound_risk"] = pd.Series(
+        [bool(x) for x in (high_risk >= min_hazards)],
+        index=df.index,
+        dtype=object,
+    )
+
+    n_flagged = sum(df["compound_risk"])
+
     logger.info(
         f"Compound risk: {n_flagged} / {len(df)} assets flagged "
         f"(threshold={threshold}, min_hazards={min_hazards})"
     )
+
     return df
 
 
