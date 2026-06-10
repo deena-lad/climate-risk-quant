@@ -58,12 +58,27 @@ def gini_coefficient(scores: pd.Series) -> float:
     Returns:
         Gini coefficient in [0, 1].
     """
-    arr = np.sort(scores.dropna().values)
-    n = len(arr)
-    if n == 0:
+    arr = np.asarray(scores.dropna(), dtype=float)
+
+    if len(arr) == 0:
         return float("nan")
-    cumulative = arr.cumsum()
-    return float((2 * cumulative.sum() / cumulative[-1] - (n + 1)) / n)
+
+    if np.all(arr == 0):
+        return 0.0
+
+    # Ensure non-negative values
+    arr = np.clip(arr, 0, None)
+
+    # Sort ascending
+    arr = np.sort(arr)
+
+    n = len(arr)
+    index = np.arange(1, n + 1)
+
+    gini = np.sum((2 * index - n - 1) * arr) / (n * arr.sum())
+    gini = max(0.0, min(1.0, gini))
+
+    return float(gini)
 
 
 def ks_uniformity(scores: pd.Series) -> dict[str, float]:

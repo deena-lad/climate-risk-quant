@@ -327,8 +327,10 @@ def _load_geojson(path: Path) -> pd.DataFrame:
 def _validate_asset_columns(df: pd.DataFrame, path: Path) -> None:
     missing = REQUIRED_ASSET_COLUMNS - set(df.columns)
     if missing:
+        filename = Path(path).name
+
         raise ValueError(
-            f"Asset file {path.name} is missing required columns: {missing}\n"
+            f"Asset file {filename} is missing required columns: {missing}\n"
             f"Found columns: {list(df.columns)}"
         )
 
