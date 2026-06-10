@@ -39,7 +39,7 @@ pydantic==2.7.1
 pydantic-settings==2.2.1
 
 # ── Storage ───────────────────────────────────────────────────────────────────
-pyarrow==16.0.0           # Parquet I/O
+pyarrow==15.0.2           # Parquet I/O
 fastparquet==2024.2.0     # Alternative parquet engine
 
 # ── Frontend ──────────────────────────────────────────────────────────────────
