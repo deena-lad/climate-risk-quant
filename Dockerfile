@@ -66,15 +66,15 @@ COPY --chown=appuser:appuser pyproject.toml .
 RUN mkdir -p \
         data/raw data/interim data/processed \
         mlruns \
-    && chown -R appuser:appuser /home/appuser/app
+    && chown -R appuser:appuser /home/appuser/apps
+
+# Install the src package in editable mode (so imports resolve)
+RUN pip install --no-cache-dir . --no-deps
 
 # Streamlit config — must live at ~/.streamlit/config.toml
 USER appuser
 RUN mkdir -p /home/appuser/.streamlit
 COPY --chown=appuser:appuser .streamlit/config.toml /home/appuser/.streamlit/config.toml
-
-# Install the src package in editable mode (so imports resolve)
-RUN pip install --no-cache-dir . --no-deps
 
 # Health check — confirms Streamlit is responding
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
