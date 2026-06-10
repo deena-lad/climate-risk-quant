@@ -66,7 +66,7 @@ COPY --chown=appuser:appuser pyproject.toml .
 RUN mkdir -p \
         data/raw data/interim data/processed \
         mlruns \
-    && chown -R appuser:appuser /home/appuser/apps
+    && chown -R appuser:appuser /home/appuser/app
 
 # Install the src package in editable mode (so imports resolve)
 RUN pip install --no-cache-dir . --no-deps
