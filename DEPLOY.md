@@ -56,7 +56,7 @@ git push
 
 Add this job to `.github/workflows/ci.yml` (after the existing `docker` job):
 
-```yaml
+yaml
   deploy-hf:
     name: Deploy to HuggingFace Spaces
     runs-on: ubuntu-latest
@@ -74,9 +74,9 @@ Add this job to `.github/workflows/ci.yml` (after the existing `docker` job):
         run: |
           git config --global user.email "ci@github.com"
           git config --global user.name "GitHub Actions"
-          git remote add hf https://YOUR_USERNAME:${HF_TOKEN}@huggingface.co/spaces/YOUR_USERNAME/climate-risk-quant
+          git remote add hf https://deena-lad:${HF_TOKEN}@huggingface.co/spaces/deena-lad/climate-risk-quant
           git push hf main --force
-```
+
 
 Then add `HF_TOKEN` to your GitHub repo secrets:
 `GitHub repo → Settings → Secrets → Actions → New repository secret`
