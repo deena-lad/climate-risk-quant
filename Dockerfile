@@ -38,13 +38,12 @@ RUN python -m venv /opt/venv && \
 # ── Stage 2: runtime ──────────────────────────────────────────────────────────
 FROM python:3.11-slim AS runtime
 
-# Runtime system libraries only (no compilers)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libgdal32 \
-        libgeos3.11.1 \
-        libproj25 \
-        libspatialindex6 \
-        libeccodes2 \
+        libgdal-dev \
+        libgeos-dev \
+        libproj-dev \
+        libspatialindex-dev \
+        libeccodes-dev \
         curl \
     && rm -rf /var/lib/apt/lists/*
 
