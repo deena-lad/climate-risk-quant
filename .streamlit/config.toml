@@ -1,0 +1,27 @@
+[server]
+port = 7860
+address = "0.0.0.0"
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+maxUploadSize = 50          # MB — large enough for a global asset CSV
+
+[browser]
+gatherUsageStats = false
+serverAddress = "0.0.0.0"
+serverPort = 7860
+
+[theme]
+base = "light"
+primaryColor = "#1565C0"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F8F9FA"
+textColor = "#212121"
+font = "sans serif"
+
+[runner]
+# Cache pipeline runs for 5 min so re-renders from slider changes are fast
+fastReruns = true
+
+[logger]
+level = "info"
