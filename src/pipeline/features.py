@@ -203,7 +203,10 @@ def flag_compound_risk(
         return df
 
     high_risk = (df[present] >= threshold).sum(axis=1)
-    df["compound_risk"] = (high_risk >= min_hazards).map(bool)
+
+    df["compound_risk"] = [
+        bool(x) for x in (high_risk >= min_hazards)
+    ]
     n_flagged = df["compound_risk"].sum()
     logger.info(
         f"Compound risk: {n_flagged} / {len(df)} assets flagged "
