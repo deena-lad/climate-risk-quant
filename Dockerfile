@@ -17,13 +17,12 @@ FROM python:3.11-slim AS builder
 
 # System deps needed to compile geo libraries
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential \
         libgdal-dev \
         libgeos-dev \
         libproj-dev \
         libspatialindex-dev \
         libeccodes-dev \
-        git \
+        curl \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
