@@ -74,7 +74,7 @@ RUN mkdir -p /home/appuser/.streamlit
 COPY --chown=appuser:appuser .streamlit/config.toml /home/appuser/.streamlit/config.toml
 
 # Install the src package in editable mode (so imports resolve)
-RUN pip install --no-cache-dir -e . --no-deps
+RUN pip install --no-cache-dir . --no-deps
 
 # Health check — confirms Streamlit is responding
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
